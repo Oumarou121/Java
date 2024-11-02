@@ -48,7 +48,7 @@ public class Element{
 
     public void decrementerQuantite(long upQuantite){
         if(this.quantite >= upQuantite){
-            this.quantite += upQuantite;
+            this.quantite -= upQuantite;
         }else{
             System.out.println("La quantite est insuffisante pour cette action. ");
         }
