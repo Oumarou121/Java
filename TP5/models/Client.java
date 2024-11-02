@@ -7,6 +7,9 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.Font;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 
 public class Client extends Personne {
     private static int idFacture = 0;
@@ -136,35 +139,78 @@ public class Client extends Personne {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
-    
+        
+            // Titre principal
+            Font titleFont = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            Font sectionFont = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+            Font regularFont = new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL);
+            Font boldFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        
             // Titre de la facture
-            document.add(new Paragraph("Facture", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+            Paragraph title = new Paragraph("Receipt", titleFont);
+            title.setAlignment(1);
+            document.add(title);
             document.add(new Paragraph(" ")); // Saut de ligne
-    
-            // Tableau pour les articles
+        
+            // Informations sur la commande
+            document.add(new Paragraph("Order Information", sectionFont));
+            document.add(new Paragraph("Order Number: #"+ idFacture +"\nOrder Date: " + LocalDate.now() +"\nPayment Method: Cash\nDelivery Status: In Progress", regularFont));
+            document.add(new Paragraph(" "));
+        
+            // Adresse de livraison
+            document.add(new Paragraph("Shipping Address", sectionFont));
+            document.add(new Paragraph(  super.toString() , regularFont));
+            document.add(new Paragraph(" "));
+        
+            // Création du tableau pour les articles
             PdfPTable table = new PdfPTable(4);
             table.setWidths(new int[]{3, 1, 2, 2});
-            table.addCell("Article");
-            table.addCell("Quantité");
-            table.addCell("Prix unitaire");
-            table.addCell("Sous-total");
-    
-            // Contenu de la facture
+            table.setWidthPercentage(100);
+        
+            PdfPCell cell;
+        
+            // En-têtes du tableau
+            cell = new PdfPCell(new Phrase("Item", boldFont));
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase("Quantity", boldFont));
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase("Unit Price", boldFont));
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            table.addCell(cell);
+            
+            cell = new PdfPCell(new Phrase("Subtotal", boldFont));
+            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            table.addCell(cell);
+        
+            // Ajout des articles dans le tableau
             for (Element e : getPanier()) {
                 double sousTotal = e.getPrixArticle() * e.getQuantite();
                 total += sousTotal;
-                table.addCell(e.getReferenceArticle());
-                table.addCell(String.valueOf(e.getQuantite()));
-                table.addCell(String.format("%.2f", e.getPrixArticle()));
-                table.addCell(String.format("%.2f", sousTotal));
+            
+                table.addCell(new PdfPCell(new Phrase(e.getReferenceArticle(), regularFont)));
+                table.addCell(new PdfPCell(new Phrase(String.valueOf(e.getQuantite()), regularFont)));
+                table.addCell(new PdfPCell(new Phrase(String.format("%.2f", e.getPrixArticle()), regularFont)));
+                table.addCell(new PdfPCell(new Phrase(String.format("%.2f", sousTotal), regularFont)));
             }
-    
+        
             document.add(table);
-    
+        
             // Total de la facture
-            document.add(new Paragraph(" ")); // Saut de ligne
-            document.add(new Paragraph("Total: " + String.format("%.2f", total), new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD)));
-    
+            document.add(new Paragraph(" "));
+            Paragraph totalParagraph = new Paragraph("Total: " + String.format("%.2f", total), boldFont);
+            totalParagraph.setAlignment(2); // Utilisation de Element.ALIGN_RIGHT pour aligner à droite
+            document.add(totalParagraph);
+        
+            // Footer
+            document.add(new Paragraph(" "));
+            Paragraph footer = new Paragraph("Thank you for shopping with us! For any inquiries, contact support@example.com.\nReturn Policy: Returns accepted within 30 days.", regularFont);
+            footer.setAlignment(1);
+            document.add(footer);
+        
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,6 +219,7 @@ public class Client extends Personne {
         idFacture++;
         return total;
     }
+
 
     public void finaliserCommande(Stock stock){
         double total = genererFacture();
