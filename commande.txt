@@ -1,0 +1,5 @@
+javac -cp "lib/itextpdf-5.5.13.jar" models/*.java Main.java
+
+java -cp "lib/itextpdf-5.5.13.jar:." Main
+
+java Main
