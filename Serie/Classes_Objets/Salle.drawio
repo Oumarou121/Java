@@ -1,0 +1,13 @@
+<mxfile host="65bd71144e">
+    <diagram id="bSAKyaUSOIcOhMeJ2Awc" name="Page-1">
+        <mxGraphModel dx="318" dy="558" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="7" value="&lt;table border=&quot;1&quot; width=&quot;100%&quot; height=&quot;100%&quot; cellpadding=&quot;4&quot; style=&quot;width:100%;height:100%;border-collapse:collapse;&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th align=&quot;center&quot;&gt;&lt;b&gt;Salle&lt;/b&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;nbrPlaces: int&lt;br&gt;num: int&lt;br&gt;surface: float&lt;br&gt;departement: String&lt;br&gt;connected: boolean&lt;br&gt;&lt;u&gt;nbSalle: int = 101&lt;/u&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td align=&quot;center&quot;&gt;Salle(s: float, d: String, c: boolean, nbrPlaces: int): Salle&lt;br&gt;isConnected( ): String&lt;br&gt;decrire( ): String&lt;br&gt;&lt;u&gt;getNbSalles( ): int&lt;/u&gt;&lt;br&gt;getSurface( ) : float&lt;br&gt;setNum( ) : void&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;overflow=fill;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="320" width="200" height="230" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
